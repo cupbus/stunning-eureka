@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
  // private final Timer m_timer = new Timer();
 private final Joystick joystick1 = new Joystick(0);
   private final Timer my_timer = new Timer();
- private final TalonSRX talon1 = new TalonSRX(1);
+ private final TalonSRX talon1 = new TalonSRX(3);
 
 
   /**
@@ -57,13 +57,13 @@ private final Joystick joystick1 = new Joystick(0);
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-      if (my_timer.get() > 2.0) {
+      if (my_timer.get() < 2.0) {
         talon1.set(TalonSRXControlMode.PercentOutput, 0.2);
-      } else {
+      } else if (my_timer.get() > 5) {
         talon1.set(TalonSRXControlMode.PercentOutput, -0.2);
       } 
-      if (my_timer.get() == 5) {
-        talon1.set(TalonSRXControlMode.PercentOutput, 0);
+      else{
+        talon1.set(TalonSRXControlMode.PercentOutput, 0.0);
       }
         
       }
@@ -97,10 +97,11 @@ private final Joystick joystick1 = new Joystick(0);
   public void teleopPeriodic() {
     if(joystick1.getRawButton(5)) {
         talon1.set(TalonSRXControlMode.PercentOutput, 0.3);
-    }
-    if (joystick1.getRawButton(6)){
+    } else if (joystick1.getRawButton(6)){
       talon1.set(TalonSRXControlMode.PercentOutput, -0.3);
-        }
+    }else{
+      talon1.set(TalonSRXControlMode.PercentOutput, 0.0);
+    }
 
 
 
